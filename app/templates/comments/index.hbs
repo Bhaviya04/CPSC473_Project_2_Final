@@ -1,0 +1,9 @@
+<div class="panel panel-default">
+  <ul class="list-group">
+    {{#each model as |commentItem|}}
+      <li class="list-group-item">
+        {{commentItem.comment}} {{commentItem.dateSubmitted}}
+      </li>
+    {{/each}}
+  </ul>
+</div>

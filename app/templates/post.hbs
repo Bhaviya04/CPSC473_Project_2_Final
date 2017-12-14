@@ -1,0 +1,80 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-8 col-md-7">
+      <div class="row">
+        <div class="col-xs-1 col-sm-2"  align="right">
+          <br><br>
+          {{#if showPrevious}}
+            {{#link-to 'post' prevPost (query-params myIndex=prevIndex posts=posts)}}
+               <button class="btn btn-primary"><b style="color:white;font-family:Cambria;">PREVIOUS</b></button>
+            {{/link-to}}
+          {{/if}}
+          <br><br>
+        </div>
+
+        <div class="col-xs-10 col-sm-8">
+          <div class="media">
+            <div class="media-body">
+              <h1 style="color:#000080;font-family:Cambria;">{{model.post.title}}</h1>
+              <h4 style="color:black;font-family:Verdana;"> by {{#link-to "user" model.post.user.email}}{{model.post.user.displayName}}{{/link-to}}
+                <small><i>{{model.post.dateSubmitted}}</i></small>
+              </h4>
+              <!--<span class="">upvote</span>
+              <span class="">downvote</span>
+              <small><i>{{model.post.score}} points</i></small>-->
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xs-1 col-sm-2">
+          <br><br>
+          {{#if showNext}}
+            {{#link-to 'post' nextPost (query-params myIndex=nextIndex posts=posts)}}
+               <button class="btn btn-primary"><b style="color:white;font-family:Cambria;">NEXT</b></button>
+            {{/link-to}}
+          {{/if}}
+          <br><br>
+        </div>
+
+        <div class="container-fluid">
+          <a href={{model.post.downloadURL}}>
+            <center>
+              <img src="{{model.post.downloadURL}}" alt="" class="img-responsive img-rounded"/>
+            </center>
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="col-xs-4 col-md-5">
+
+      {{#if session.isAuthenticated}}
+      <div class="container-fluid">
+                <h4>Comments:</h4>
+        <form {{action "postComment" model.post.id session.currentUser.uid on="submit"}}>
+          <div class="form-group">
+            {{textarea value=model.comment.comment
+              class="form-control" name="comment" required=true}}
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Post Comment</button>
+        </form>
+        <br>
+      </div>
+      {{/if}}
+      <div class="container-fluid scroll">
+
+        {{#each sortedComments as |comment|}}
+          <div class="media">
+            <div class="media-body">
+              <h4 class="media-heading">{{#link-to "user" comment.user.email}}{{comment.user.displayName}}{{/link-to}}
+                <small><i>{{comment.dateSubmitted}}</i></small>
+              </h4>
+              <p>{{comment.comment}}</p>
+            </div>
+          </div>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+</div>
